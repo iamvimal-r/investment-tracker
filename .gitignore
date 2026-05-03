@@ -1,15 +1,15 @@
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
-# dependencies
+# ── Dependencies ──────────────────────────────────────────────────────────────
 node_modules/
 
-# Expo
+# ── Expo ──────────────────────────────────────────────────────────────────────
 .expo/
 dist/
 web-build/
 expo-env.d.ts
 
-# Native
+# ── Native builds ─────────────────────────────────────────────────────────────
 .kotlin/
 *.orig.*
 *.jks
@@ -17,27 +17,40 @@ expo-env.d.ts
 *.p12
 *.key
 *.mobileprovision
+/ios
+/android
 
-# Metro
+# ── Metro bundler ─────────────────────────────────────────────────────────────
 .metro-health-check*
 
-# debug
+# ── Debug logs ────────────────────────────────────────────────────────────────
 npm-debug.*
 yarn-debug.*
 yarn-error.*
 
-# macOS
+# ── OS files ──────────────────────────────────────────────────────────────────
 .DS_Store
+Thumbs.db
 *.pem
 
-# local env files
-.env*.local
+# ── Environment / secrets ─────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
 
-# typescript
+# ── TypeScript ────────────────────────────────────────────────────────────────
 *.tsbuildinfo
 
-app-example
+# ── EAS / Build artifacts ─────────────────────────────────────────────────────
+.easignore
+eas-build-local-*/
 
-# generated native folders
-/ios
-/android
+# ── Editor ────────────────────────────────────────────────────────────────────
+.vscode/settings.json
+.idea/
+
+# ── Misc ──────────────────────────────────────────────────────────────────────
+app-example
+*.log
