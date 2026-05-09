@@ -1,6 +1,7 @@
 import api from '../constants/Api';
 
-export type AssetType = 'stock' | 'crypto' | 'mutual_fund' | 'gold' | 'fd';
+export type AssetType = 'stock' | 'crypto' | 'mutual_fund' | 'gold' | 'fd'
+  | 'nps' | 'pf' | 'lic' | 'post_life' | 'tata_aia';
 
 export interface Investment {
   id: string;

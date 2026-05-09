@@ -17,6 +17,11 @@ const ASSET_LABELS: Record<AssetType, string> = {
   mutual_fund: '🏦 Mutual Funds',
   gold: '🥇 Gold',
   fd: '🏛 Fixed Deposits',
+  nps: '🛡 NPS',
+  pf: '💼 Provident Fund',
+  lic: '❤️ LIC',
+  post_life: '📮 Post Life',
+  tata_aia: '☂️ TATA AIA',
 };
 
 type Section = { title: string; data: Investment[] };
@@ -131,14 +136,14 @@ export default function PortfolioScreen() {
         style={styles.filterRow}
         contentContainerStyle={styles.filterContent}
       >
-        {(['all', 'stock', 'crypto', 'mutual_fund', 'gold', 'fd'] as const).map(f => (
+        {(['all', 'stock', 'crypto', 'mutual_fund', 'gold', 'fd', 'nps', 'pf', 'lic', 'post_life', 'tata_aia'] as const).map(f => (
           <TouchableOpacity
             key={f}
             style={[styles.filterChip, filter === f && styles.filterChipActive]}
             onPress={() => setFilter(f)}
           >
             <Text style={[styles.filterText, filter === f && styles.filterTextActive]}>
-              {f === 'all' ? 'All' : ASSET_LABELS[f].split(' ')[1]}
+              {f === 'all' ? 'All' : ASSET_LABELS[f]?.split(' ').slice(1).join(' ') || f.toUpperCase()}
             </Text>
           </TouchableOpacity>
         ))}

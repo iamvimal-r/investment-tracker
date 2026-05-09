@@ -47,5 +47,10 @@ export const Colors = {
     mutual_fund: '#00D4AA',
     gold: '#FFD700',
     fd: '#FF9500',
+    nps: '#E91E8C',       // Vibrant pink (NPS government scheme)
+    pf: '#2196F3',        // Blue (provident fund)
+    lic: '#4CAF50',       // Green (LIC brand)
+    post_life: '#FF5722', // Deep orange (Post Office brand)
+    tata_aia: '#9C27B0',  // Purple (TATA AIA brand)
   } as Record<string, string>,
 };

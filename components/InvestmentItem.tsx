@@ -16,6 +16,11 @@ const ASSET_ICONS: Record<string, any> = {
   mutual_fund: 'pie-chart',
   gold: 'diamond',
   fd: 'business',
+  nps: 'shield-checkmark',
+  pf: 'briefcase',
+  lic: 'heart',
+  post_life: 'mail',
+  tata_aia: 'umbrella',
 };
 
 const ASSET_LABELS: Record<string, string> = {
@@ -24,6 +29,11 @@ const ASSET_LABELS: Record<string, string> = {
   mutual_fund: 'Mutual Fund',
   gold: 'Gold',
   fd: 'Fixed Deposit',
+  nps: 'NPS',
+  pf: 'Provident Fund',
+  lic: 'LIC',
+  post_life: 'Post Life Insurance',
+  tata_aia: 'TATA AIA',
 };
 
 export function InvestmentItem({ investment, onPress, onDelete }: InvestmentItemProps) {

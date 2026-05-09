@@ -14,12 +14,18 @@ interface AddInvestmentModalProps {
   onAdded: () => void;
 }
 
-const ASSET_TYPES: { key: AssetType; label: string; icon: any; hint: string }[] = [
-  { key: 'stock', label: 'Stock', icon: 'stats-chart', hint: 'e.g. RELIANCE.NS' },
-  { key: 'crypto', label: 'Crypto', icon: 'logo-bitcoin', hint: 'e.g. bitcoin' },
-  { key: 'mutual_fund', label: 'Mutual Fund', icon: 'pie-chart', hint: 'Scheme code e.g. 120503' },
-  { key: 'gold', label: 'Gold', icon: 'diamond', hint: 'e.g. Gold-24k' },
-  { key: 'fd', label: 'Fixed Deposit', icon: 'business', hint: 'e.g. SBI-FD-2024' },
+const ASSET_TYPES: { key: AssetType; label: string; icon: any; hint: string; quantityLabel?: string; priceLabel?: string }[] = [
+  { key: 'stock',       label: 'Stock',       icon: 'stats-chart',    hint: 'e.g. RELIANCE.NS' },
+  { key: 'crypto',      label: 'Crypto',      icon: 'logo-bitcoin',   hint: 'e.g. bitcoin' },
+  { key: 'mutual_fund', label: 'Mutual Fund', icon: 'pie-chart',      hint: 'Scheme code e.g. 120503' },
+  { key: 'gold',        label: 'Gold',        icon: 'diamond',        hint: 'e.g. Gold-24k' },
+  { key: 'fd',          label: 'Fixed Dep.',  icon: 'business',       hint: 'e.g. SBI-FD-2024' },
+  // Pension & Insurance
+  { key: 'nps',         label: 'NPS',         icon: 'shield-checkmark', hint: 'e.g. NPS-Tier1-SBI',    quantityLabel: 'Units / Contributions', priceLabel: 'NAV / Avg. Cost (₹)' },
+  { key: 'pf',          label: 'PF',          icon: 'briefcase',      hint: 'e.g. EPF-UAN-123456',   quantityLabel: 'Years / Count',         priceLabel: 'Total Corpus (₹)' },
+  { key: 'lic',         label: 'LIC',         icon: 'heart',          hint: 'e.g. LIC-Jeevan-Anand', quantityLabel: 'No. of Policies',       priceLabel: 'Annual Premium (₹)' },
+  { key: 'post_life',   label: 'Post Life',   icon: 'mail',           hint: 'e.g. PLI-Policy-12345', quantityLabel: 'No. of Policies',       priceLabel: 'Annual Premium (₹)' },
+  { key: 'tata_aia',    label: 'TATA AIA',    icon: 'umbrella',       hint: 'e.g. TATA-AIA-Fortune', quantityLabel: 'No. of Policies',       priceLabel: 'Annual Premium (₹)' },
 ];
 
 export function AddInvestmentModal({ visible, onClose, onAdded }: AddInvestmentModalProps) {
@@ -138,10 +144,10 @@ export function AddInvestmentModal({ visible, onClose, onAdded }: AddInvestmentM
               onChangeText={setName}
             />
 
-            {/* Qty + Price */}
+            {/* Qty + Price — labels adapt for insurance types */}
             <View style={styles.row}>
               <View style={{ flex: 1 }}>
-                <Text style={styles.label}>Quantity *</Text>
+                <Text style={styles.label}>{selectedType.quantityLabel || 'Quantity'} *</Text>
                 <TextInput
                   style={styles.input}
                   placeholder="0.00"
@@ -153,7 +159,7 @@ export function AddInvestmentModal({ visible, onClose, onAdded }: AddInvestmentM
               </View>
               <View style={{ width: 12 }} />
               <View style={{ flex: 1 }}>
-                <Text style={styles.label}>Buy Price (₹) *</Text>
+                <Text style={styles.label}>{selectedType.priceLabel || 'Buy Price (₹)'} *</Text>
                 <TextInput
                   style={styles.input}
                   placeholder="0.00"
