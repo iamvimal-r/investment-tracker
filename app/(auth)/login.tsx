@@ -31,8 +31,32 @@ export default function LoginScreen() {
       await authService.login(email.trim(), password);
       router.replace('/(tabs)');
     } catch (err: any) {
-      const msg = err.response?.data?.detail || 'Login failed. Check your credentials.';
-      Alert.alert('Login Failed', msg);
+      const status = err.response?.status;
+      const detail: string = err.response?.data?.detail || '';
+
+      if (!err.response) {
+        // Network / connection error
+        Alert.alert(
+          'Connection Error',
+          'Could not reach the server. Make sure:\n• The API server is running\n• Your device is on the same Wi-Fi\n• The API URL in .env is correct',
+          [{ text: 'OK' }]
+        );
+      } else if (status === 401 || status === 404) {
+        // Wrong credentials or account doesn't exist
+        Alert.alert(
+          'Login Failed',
+          'No account found with these credentials.',
+          [
+            { text: 'Try Again', style: 'cancel' },
+            {
+              text: 'Create Account',
+              onPress: () => router.replace('/(auth)/register'),
+            },
+          ]
+        );
+      } else {
+        Alert.alert('Login Failed', detail || 'Something went wrong. Please try again.');
+      }
     } finally {
       setLoading(false);
     }

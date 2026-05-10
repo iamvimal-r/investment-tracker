@@ -1,18 +1,48 @@
 /**
- * Lightweight storage shim – works without @react-native-async-storage installed.
- * Data is persisted in-memory only (cleared on app restart).
- * Replace this file with expo-secure-store or AsyncStorage once packages are installed.
+ * Persistent storage using expo-secure-store.
+ * Works in Expo Go without npm install (bundled in the Expo Go client).
+ * For standalone builds, run: npm install expo-secure-store
  */
-const store = new Map<string, string>();
+import { Platform } from 'react-native';
+
+// Web fallback (SecureStore is native-only)
+const webStore = new Map<string, string>();
+
+let SecureStore: any = null;
+try {
+  SecureStore = require('expo-secure-store');
+} catch {
+  // expo-secure-store not available — will use web/memory fallback
+}
 
 export const Storage = {
   async getItem(key: string): Promise<string | null> {
-    return store.get(key) ?? null;
+    if (Platform.OS === 'web' || !SecureStore) return webStore.get(key) ?? null;
+    try {
+      return await SecureStore.getItemAsync(key);
+    } catch {
+      return webStore.get(key) ?? null;
+    }
   },
+
   async setItem(key: string, value: string): Promise<void> {
-    store.set(key, value);
+    if (Platform.OS === 'web' || !SecureStore) {
+      webStore.set(key, value);
+      return;
+    }
+    try {
+      await SecureStore.setItemAsync(key, value);
+      webStore.set(key, value); // keep in-memory copy as cache
+    } catch {
+      webStore.set(key, value);
+    }
   },
+
   async removeItem(key: string): Promise<void> {
-    store.delete(key);
+    webStore.delete(key);
+    if (Platform.OS === 'web' || !SecureStore) return;
+    try {
+      await SecureStore.deleteItemAsync(key);
+    } catch { }
   },
 };

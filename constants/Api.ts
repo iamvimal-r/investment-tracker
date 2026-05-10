@@ -37,38 +37,58 @@ async function handleResponse(res: Response) {
 
 const api = {
   async get(path: string, params?: Record<string, string>) {
-    const url = new URL(API_BASE_URL + path);
-    if (params) Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
-    const res = await fetch(url.toString(), { headers: await getHeaders() });
-    return { data: await handleResponse(res) };
+    try {
+      const url = new URL(API_BASE_URL + path);
+      if (params) Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
+      const res = await fetch(url.toString(), { headers: await getHeaders() });
+      return { data: await handleResponse(res) };
+    } catch (err: any) {
+      if (!err.response) err.isNetworkError = true;
+      throw err;
+    }
   },
 
   async post(path: string, body?: any, extraHeaders?: Record<string, string>) {
-    const isForm = extraHeaders?.['Content-Type']?.includes('x-www-form-urlencoded');
-    const res = await fetch(API_BASE_URL + path, {
-      method: 'POST',
-      headers: await getHeaders(extraHeaders || {}),
-      body: isForm ? body : JSON.stringify(body),
-    });
-    return { data: await handleResponse(res) };
+    try {
+      const isForm = extraHeaders?.['Content-Type']?.includes('x-www-form-urlencoded');
+      const res = await fetch(API_BASE_URL + path, {
+        method: 'POST',
+        headers: await getHeaders(extraHeaders || {}),
+        body: isForm ? body : JSON.stringify(body),
+      });
+      return { data: await handleResponse(res) };
+    } catch (err: any) {
+      if (!err.response) err.isNetworkError = true;
+      throw err;
+    }
   },
 
   async put(path: string, body?: any) {
-    const res = await fetch(API_BASE_URL + path, {
-      method: 'PUT',
-      headers: await getHeaders(),
-      body: JSON.stringify(body),
-    });
-    return { data: await handleResponse(res) };
+    try {
+      const res = await fetch(API_BASE_URL + path, {
+        method: 'PUT',
+        headers: await getHeaders(),
+        body: JSON.stringify(body),
+      });
+      return { data: await handleResponse(res) };
+    } catch (err: any) {
+      if (!err.response) err.isNetworkError = true;
+      throw err;
+    }
   },
 
   async delete(path: string) {
-    const res = await fetch(API_BASE_URL + path, {
-      method: 'DELETE',
-      headers: await getHeaders(),
-    });
-    if (!res.ok && res.status !== 204) await handleResponse(res);
-    return {};
+    try {
+      const res = await fetch(API_BASE_URL + path, {
+        method: 'DELETE',
+        headers: await getHeaders(),
+      });
+      if (!res.ok && res.status !== 204) await handleResponse(res);
+      return {};
+    } catch (err: any) {
+      if (!err.response) err.isNetworkError = true;
+      throw err;
+    }
   },
 };
 
